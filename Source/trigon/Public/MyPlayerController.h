@@ -4,9 +4,6 @@
 #include "GameFramework/PlayerController.h"
 #include "MyPlayerController.generated.h"
 
-/**
- * 
- */
 UCLASS()
 class TRIGON_API AMyPlayerController : public APlayerController
 {

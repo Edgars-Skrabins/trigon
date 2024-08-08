@@ -16,13 +16,17 @@ protected:
 	virtual void BeginPlay() override;
 
 	UFUNCTION()
-	static void OnOverlapBegin(UPrimitiveComponent* OverlappedComp, const AActor* OtherActor, UPrimitiveComponent* OtherComp,
-	                           int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+	static void OnOverlapBegin(
+		UPrimitiveComponent* OverlappedComp,
+		const AActor* OtherActor,
+		UPrimitiveComponent* OtherComp,
+		int32 OtherBodyIndex,
+		bool bFromSweep,
+		const FHitResult& SweepResult);
 
 	UPROPERTY()
 	UStaticMeshComponent* StaticMeshComponent;
 
 public:
-	virtual void TickComponent(float DeltaTime, ELevelTick TickType,
-	                           FActorComponentTickFunction* ThisTickFunction) override;
+	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 };

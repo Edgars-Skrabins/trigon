@@ -4,7 +4,6 @@
 void AMyPlayerController::SetupInputComponent()
 {
 	Super::SetupInputComponent();
-
 	InputComponent->BindAxis("MoveVertical", this, &AMyPlayerController::MoveVertical);
 	InputComponent->BindAxis("MoveHorizontal", this, &AMyPlayerController::MoveHorizontal);
 }

@@ -2,6 +2,7 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
+#include "GameFramework/CharacterMovementComponent.h"
 #include "PlayerMovement.generated.h"
 
 UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent))
@@ -15,6 +16,12 @@ public:
 
 protected:
 	virtual void BeginPlay() override;
+	virtual void InitializeComponent() override;
+
+	UPROPERTY()
+	ACharacter* Character;
+	UPROPERTY()
+	UCharacterMovementComponent* CharacterMovementComponent;
 
 public:
 	UPlayerMovement();
