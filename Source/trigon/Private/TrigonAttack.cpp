@@ -9,7 +9,7 @@ UTrigonAttack::UTrigonAttack()
 	{
 		StaticMeshComponent = Owner->FindComponentByClass<UStaticMeshComponent>();
 
-		// StaticMeshComponent->OnComponentBeginOverlap.AddDynamic(this, &UTrigonAttack::OnOverlapBegin);
+		StaticMeshComponent->OnComponentBeginOverlap.AddDynamic(this, &UTrigonAttack::OnOverlapBegin);
 	}
 }
 
@@ -19,7 +19,7 @@ void UTrigonAttack::BeginPlay()
 }
 
 void UTrigonAttack::OnOverlapBegin(UPrimitiveComponent* OverlappedComp,
-                                   const AActor* OtherActor,
+                                   AActor* OtherActor,
                                    UPrimitiveComponent* OtherComp,
                                    int32 OtherBodyIndex,
                                    bool bFromSweep,
@@ -27,7 +27,15 @@ void UTrigonAttack::OnOverlapBegin(UPrimitiveComponent* OverlappedComp,
 {
 	if (OtherActor && OtherActor->ActorHasTag("Player"))
 	{
-		UPlayerHealth* PlayerHealth = OtherActor->FindComponentByClass<UPlayerHealth>();
+		HandlePlayerCollision(OtherActor);
+	}
+}
+    
+void UTrigonAttack::HandlePlayerCollision(const AActor* OtherActor)
+{
+	UPlayerHealth* PlayerHealth = OtherActor->FindComponentByClass<UPlayerHealth>();
+	if (PlayerHealth)
+	{
 		PlayerHealth->TakeDamage(100);
 	}
 }

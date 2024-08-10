@@ -16,9 +16,9 @@ protected:
 	virtual void BeginPlay() override;
 
 	UFUNCTION()
-	static void OnOverlapBegin(
+	void OnOverlapBegin(
 		UPrimitiveComponent* OverlappedComp,
-		const AActor* OtherActor,
+		AActor* OtherActor,
 		UPrimitiveComponent* OtherComp,
 		int32 OtherBodyIndex,
 		bool bFromSweep,
@@ -26,6 +26,8 @@ protected:
 
 	UPROPERTY()
 	UStaticMeshComponent* StaticMeshComponent;
+
+	void HandlePlayerCollision(const AActor* OtherActor);
 
 public:
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
