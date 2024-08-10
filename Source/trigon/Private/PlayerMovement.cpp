@@ -12,6 +12,7 @@ UPlayerMovement::UPlayerMovement()
 void UPlayerMovement::BeginPlay()
 {
 	Super::BeginPlay();
+	UPlayerMovement::InitializeComponent();
 }
 
 void UPlayerMovement::InitializeComponent()
@@ -24,18 +25,23 @@ void UPlayerMovement::InitializeComponent()
 	}
 }
 
-void UPlayerMovement::MoveVertical(const float Value) const
+void UPlayerMovement::MoveVertical(const float Value)
 {
 	const float Velocity = Value * MoveSpeed;
 
-	CharacterMovementComponent->MoveSmooth(Character->GetActorForwardVector(), Velocity);
+	if (CharacterMovementComponent)
+	{
+		CharacterMovementComponent->MoveSmooth(Character->GetActorForwardVector(), Velocity);
+	}
 }
 
-void UPlayerMovement::MoveHorizontal(const float Value) const
+void UPlayerMovement::MoveHorizontal(const float Value)
 {
 	const float Velocity = Value * MoveSpeed;
-
-	CharacterMovementComponent->MoveSmooth(Character->GetActorRightVector(), Velocity);
+	if (CharacterMovementComponent)
+	{
+		CharacterMovementComponent->MoveSmooth(Character->GetActorRightVector(), Velocity);
+	}
 }
 
 void UPlayerMovement::TickComponent(

@@ -21,6 +21,7 @@ protected:
 public:
 	virtual int GetHealth();
 	virtual void TakeDamage(int Damage);
+	virtual void Die();
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType,
 	                           FActorComponentTickFunction* ThisTickFunction) override;
 };

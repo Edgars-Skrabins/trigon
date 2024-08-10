@@ -28,6 +28,6 @@ public:
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType,
 	                           FActorComponentTickFunction* ThisTickFunction) override;
 
-	void MoveVertical(float Value) const;
-	void MoveHorizontal(float Value) const;
+	void MoveVertical(float Value);
+	void MoveHorizontal(float Value);
 };

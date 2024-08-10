@@ -1,6 +1,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "PlayerMovement.h"
 #include "GameFramework/PlayerController.h"
 #include "MyPlayerController.generated.h"
 
@@ -11,6 +12,10 @@ class TRIGON_API AMyPlayerController : public APlayerController
 
 protected:
 	virtual void SetupInputComponent() override;
+	virtual void BeginPlay() override;
+	void InitializeComponent();
+	UPROPERTY()
+	UPlayerMovement* PlayerMovement;
 
 private:
 	void MoveVertical(float MoveStrength);

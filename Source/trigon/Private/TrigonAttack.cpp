@@ -4,18 +4,29 @@
 UTrigonAttack::UTrigonAttack()
 {
 	PrimaryComponentTick.bCanEverTick = true;
-	const AActor* Owner = GetOwner();
-	if (Owner)
-	{
-		StaticMeshComponent = Owner->FindComponentByClass<UStaticMeshComponent>();
-
-		StaticMeshComponent->OnComponentBeginOverlap.AddDynamic(this, &UTrigonAttack::OnOverlapBegin);
-	}
 }
 
 void UTrigonAttack::BeginPlay()
 {
 	Super::BeginPlay();
+	InitializeComponent();
+}
+
+void UTrigonAttack::InitializeComponent()
+{
+	Super::InitializeComponent();
+	const AActor* Owner = GetOwner();
+	if (!Owner)
+	{
+		return;
+	}
+
+	CapsuleComponent = Owner->FindComponentByClass<UCapsuleComponent>();
+	if (CapsuleComponent)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Initialize Capsule collision"));
+		CapsuleComponent->OnComponentBeginOverlap.AddDynamic(this, &UTrigonAttack::OnOverlapBegin);
+	}
 }
 
 void UTrigonAttack::OnOverlapBegin(UPrimitiveComponent* OverlappedComp,
@@ -30,7 +41,7 @@ void UTrigonAttack::OnOverlapBegin(UPrimitiveComponent* OverlappedComp,
 		HandlePlayerCollision(OtherActor);
 	}
 }
-    
+
 void UTrigonAttack::HandlePlayerCollision(const AActor* OtherActor)
 {
 	UPlayerHealth* PlayerHealth = OtherActor->FindComponentByClass<UPlayerHealth>();

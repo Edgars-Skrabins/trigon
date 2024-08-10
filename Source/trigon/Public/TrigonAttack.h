@@ -2,6 +2,7 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
+#include "Components/CapsuleComponent.h"
 #include "TrigonAttack.generated.h"
 
 UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent))
@@ -14,6 +15,7 @@ public:
 
 protected:
 	virtual void BeginPlay() override;
+	virtual void InitializeComponent() override;
 
 	UFUNCTION()
 	void OnOverlapBegin(
@@ -25,7 +27,7 @@ protected:
 		const FHitResult& SweepResult);
 
 	UPROPERTY()
-	UStaticMeshComponent* StaticMeshComponent;
+	UCapsuleComponent* CapsuleComponent;
 
 	void HandlePlayerCollision(const AActor* OtherActor);
 

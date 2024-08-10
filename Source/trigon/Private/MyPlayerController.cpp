@@ -8,18 +8,32 @@ void AMyPlayerController::SetupInputComponent()
 	InputComponent->BindAxis("MoveHorizontal", this, &AMyPlayerController::MoveHorizontal);
 }
 
+void AMyPlayerController::BeginPlay()
+{
+	Super::BeginPlay();
+	InitializeComponent();
+}
+
+void AMyPlayerController::InitializeComponent()
+{
+	PlayerMovement = GetPawn()->FindComponentByClass<UPlayerMovement>();
+}
+
 void AMyPlayerController::MoveVertical(float MoveStrength)
 {
-	if (const UPlayerMovement* PlayerMovement = GetPawn()->FindComponentByClass<UPlayerMovement>())
+	if (!PlayerMovement)
 	{
-		PlayerMovement->MoveVertical(MoveStrength);
+		return;
 	}
+	PlayerMovement->MoveVertical(MoveStrength);
 }
 
 void AMyPlayerController::MoveHorizontal(float MoveStrength)
 {
-	if (const UPlayerMovement* PlayerMovement = GetPawn()->FindComponentByClass<UPlayerMovement>())
+	if (!PlayerMovement)
 	{
-		PlayerMovement->MoveHorizontal(MoveStrength);
+		return;
 	}
+
+	PlayerMovement->MoveHorizontal(MoveStrength);
 }

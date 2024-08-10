@@ -31,4 +31,12 @@ int UHealth::GetHealth()
 void UHealth::TakeDamage(const int Damage)
 {
 	Health -= Damage;
+	if (Health <= 0)
+	{
+		Die();
+	}
+}
+
+void UHealth::Die()
+{
 }
