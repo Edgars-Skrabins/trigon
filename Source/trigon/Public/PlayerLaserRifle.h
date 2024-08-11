@@ -22,8 +22,6 @@ protected:
 	UPROPERTY()
 	AActor* ClosestEnemy;
 	UPROPERTY()
-	TArray<AActor*> EnemyArray;
-	UPROPERTY()
 	int EnemyCheckRadius;
 
 public:
