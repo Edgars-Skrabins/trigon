@@ -15,7 +15,7 @@ void UTrigonAttack::BeginPlay()
 void UTrigonAttack::InitializeComponent()
 {
 	Super::InitializeComponent();
-	const AActor* Owner = GetOwner();
+	Owner = GetOwner();
 	if (!Owner)
 	{
 		return;
@@ -47,7 +47,8 @@ void UTrigonAttack::HandlePlayerCollision(const AActor* OtherActor)
 	UPlayerHealth* PlayerHealth = OtherActor->FindComponentByClass<UPlayerHealth>();
 	if (PlayerHealth)
 	{
-		PlayerHealth->TakeDamage(100);
+		PlayerHealth->TakeDamage(AttackDamage);
+		Owner->Destroy();
 	}
 }
 

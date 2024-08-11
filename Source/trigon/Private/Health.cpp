@@ -39,4 +39,5 @@ void UHealth::TakeDamage(const int Damage)
 
 void UHealth::Die()
 {
+	GetOwner()->Destroy();
 }

@@ -17,6 +17,9 @@ protected:
 	virtual void BeginPlay() override;
 	virtual void InitializeComponent() override;
 
+	UPROPERTY()
+	AActor* Owner;
+
 	UFUNCTION()
 	void OnOverlapBegin(
 		UPrimitiveComponent* OverlappedComp,
@@ -30,6 +33,9 @@ protected:
 	UCapsuleComponent* CapsuleComponent;
 
 	void HandlePlayerCollision(const AActor* OtherActor);
+
+	UPROPERTY(BlueprintReadWrite, BlueprintReadWrite)
+	int AttackDamage;
 
 public:
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
