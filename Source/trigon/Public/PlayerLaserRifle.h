@@ -15,6 +15,7 @@ public:
 protected:
 	virtual void BeginPlay() override;
 	void UpdateClosestEnemy();
+	void RotateTowardsClosestEnemy();
 	AActor* GetClosestActor(TArray<AActor*> Actors);
 	TArray<AActor*> GetAllSurroundingEnemyActors();
 	TArray<AActor*> GetAllSurroundingActors();

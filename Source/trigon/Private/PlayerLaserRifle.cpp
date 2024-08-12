@@ -4,6 +4,7 @@
 UPlayerLaserRifle::UPlayerLaserRifle()
 {
 	PrimaryComponentTick.bCanEverTick = true;
+	EnemyCheckRadius = 1000.0f;
 }
 
 void UPlayerLaserRifle::BeginPlay()
@@ -15,11 +16,33 @@ void UPlayerLaserRifle::TickComponent(float DeltaTime, ELevelTick TickType, FAct
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 	UpdateClosestEnemy();
+	RotateTowardsClosestEnemy();
 }
 
 void UPlayerLaserRifle::UpdateClosestEnemy()
 {
+	const TArray<AActor*> SurroundingEnemyActors = GetAllSurroundingEnemyActors();
+	if (SurroundingEnemyActors.Num() <= 0)
+	{
+		ClosestEnemy = nullptr;
+		return;
+	}
 	ClosestEnemy = GetClosestActor(GetAllSurroundingEnemyActors());
+}
+
+void UPlayerLaserRifle::RotateTowardsClosestEnemy()
+{
+	if (!ClosestEnemy)
+	{
+		return;
+	}
+
+	const FVector PlayerLaserRifleLocation = GetComponentLocation();
+	const FVector EnemyLocation = ClosestEnemy->GetActorLocation();
+	const FVector DirectionToEnemy = (EnemyLocation - PlayerLaserRifleLocation).GetSafeNormal();
+	const FRotator RotationToEnemy = DirectionToEnemy.Rotation();
+
+	SetWorldRotation(RotationToEnemy);
 }
 
 AActor* UPlayerLaserRifle::GetClosestActor(TArray<AActor*> Actors)
