@@ -17,6 +17,7 @@ void UPlayerLaserRifle::TickComponent(float DeltaTime, ELevelTick TickType, FAct
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 	UpdateClosestEnemy();
 	RotateTowardsClosestEnemy();
+	HandleShoot();
 }
 
 void UPlayerLaserRifle::UpdateClosestEnemy()
@@ -43,6 +44,39 @@ void UPlayerLaserRifle::RotateTowardsClosestEnemy()
 	const FRotator RotationToEnemy = DirectionToEnemy.Rotation();
 
 	SetWorldRotation(RotationToEnemy);
+}
+
+void UPlayerLaserRifle::HandleShoot()
+{
+	if (CanShoot)
+	{
+		CanShoot = false;
+		Shoot();
+		GetWorld()->GetTimerManager().SetTimer(FireRateTimer, this, &UPlayerLaserRifle::ResetFireTimer, FireRate, false);
+	}
+}
+
+void UPlayerLaserRifle::Shoot()
+{
+	UWorld* World = GetWorld();
+	if (!Projectile || !World)
+	{
+		return;
+	}
+
+	FActorSpawnParameters SpawnParams;
+	SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+
+	const FVector SpawnLocation = GetComponentLocation();
+	const FRotator SpawnRotation = GetComponentRotation();
+
+	// Spawn the projectile
+	AActor* SpawnedProjectile = World->SpawnActor<AActor>(Projectile, SpawnLocation, SpawnRotation, SpawnParams);
+}
+
+void UPlayerLaserRifle::ResetFireTimer()
+{
+	CanShoot = false;
 }
 
 AActor* UPlayerLaserRifle::GetClosestActor(TArray<AActor*> Actors)
