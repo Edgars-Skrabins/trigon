@@ -1,7 +1,7 @@
 #include "PlayerLaserRifle.h"
 #include "Kismet/KismetSystemLibrary.h"
 
-UPlayerLaserRifle::UPlayerLaserRifle()
+UPlayerLaserRifle::UPlayerLaserRifle(): CanShoot(true)
 {
 	PrimaryComponentTick.bCanEverTick = true;
 	EnemyCheckRadius = 1000.0f;
@@ -70,13 +70,12 @@ void UPlayerLaserRifle::Shoot()
 	const FVector SpawnLocation = GetComponentLocation();
 	const FRotator SpawnRotation = GetComponentRotation();
 
-	// Spawn the projectile
-	AActor* SpawnedProjectile = World->SpawnActor<AActor>(Projectile, SpawnLocation, SpawnRotation, SpawnParams);
+	AProjectile* SpawnedProjectile = World->SpawnActor<AProjectile>(Projectile, SpawnLocation, SpawnRotation, SpawnParams);
 }
 
 void UPlayerLaserRifle::ResetFireTimer()
 {
-	CanShoot = false;
+	CanShoot = true;
 }
 
 AActor* UPlayerLaserRifle::GetClosestActor(TArray<AActor*> Actors)

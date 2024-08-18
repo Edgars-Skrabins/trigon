@@ -24,7 +24,6 @@ void UTrigonAttack::InitializeComponent()
 	CapsuleComponent = Owner->FindComponentByClass<UCapsuleComponent>();
 	if (CapsuleComponent)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Initialize Capsule collision"));
 		CapsuleComponent->OnComponentBeginOverlap.AddDynamic(this, &UTrigonAttack::OnOverlapBegin);
 	}
 }
@@ -44,7 +43,7 @@ void UTrigonAttack::OnOverlapBegin(UPrimitiveComponent* OverlappedComp,
 
 void UTrigonAttack::HandlePlayerCollision(const AActor* OtherActor)
 {
-	UPlayerHealth* PlayerHealth = OtherActor->FindComponentByClass<UPlayerHealth>();
+	UHealth* PlayerHealth = OtherActor->FindComponentByClass<UHealth>();
 	if (PlayerHealth)
 	{
 		PlayerHealth->TakeDamage(AttackDamage);

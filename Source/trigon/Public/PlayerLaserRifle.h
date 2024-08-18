@@ -1,6 +1,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Projectile.h"
 #include "Components/SceneComponent.h"
 #include "PlayerLaserRifle.generated.h"
 
@@ -30,11 +31,11 @@ protected:
 	UPROPERTY()
 	bool CanShoot;
 	UPROPERTY(EditAnywhere)
-	int FireRate;
+	float FireRate;
 	UPROPERTY()
 	FTimerHandle FireRateTimer;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	TSubclassOf<AActor> Projectile;
+	TSubclassOf<AProjectile> Projectile;
 
 public:
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
