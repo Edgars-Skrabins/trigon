@@ -44,7 +44,8 @@ void UPlayerLaserRifle::RotateTowardsClosestEnemy()
 	}
 
 	const FVector PlayerLaserRifleLocation = GetComponentLocation();
-	const FVector EnemyLocation = ClosestEnemy->GetActorLocation();
+	FVector EnemyLocation = ClosestEnemy->GetActorLocation();
+	EnemyLocation.Z = PlayerLaserRifleLocation.Z;
 	const FVector DirectionToEnemy = (EnemyLocation - PlayerLaserRifleLocation).GetSafeNormal();
 	const FRotator RotationToEnemy = DirectionToEnemy.Rotation();
 
