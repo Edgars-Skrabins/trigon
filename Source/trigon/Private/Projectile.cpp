@@ -1,7 +1,6 @@
 #include "Projectile.h"
 
 #include "Health.h"
-#include "Components/SphereComponent.h"
 
 AProjectile::AProjectile()
 {
@@ -12,20 +11,26 @@ AProjectile::AProjectile()
 void AProjectile::BeginPlay()
 {
 	Super::BeginPlay();
+	InitializeComponent();
 }
 
 void AProjectile::InitializeComponent()
 {
-	SphereComponent = FindComponentByClass<USphereComponent>();
-	if (SphereComponent)
+	MeshComponent = FindComponentByClass<UStaticMeshComponent>();
+	if (MeshComponent)
 	{
-		SphereComponent->OnComponentBeginOverlap.AddDynamic(this, &AProjectile::OnOverlapBegin);
+		MeshComponent->OnComponentBeginOverlap.AddDynamic(this, &AProjectile::OnOverlapBegin);
 	}
 }
 
 void AProjectile::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp,
                                  int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
+	if (OtherActor && OtherActor->ActorHasTag("Player"))
+	{
+		return;
+	}
+
 	if (OtherActor && OtherActor->ActorHasTag("Enemy"))
 	{
 		HandleEnemyCollision(OtherActor);
@@ -41,8 +46,9 @@ void AProjectile::HandleEnemyCollision(const AActor* OtherActor)
 	if (EnemyHealth)
 	{
 		EnemyHealth->TakeDamage(Damage);
-		Destroy();
 	}
+
+	Destroy();
 }
 
 void AProjectile::HandleGeneralCollision(const AActor* OtherActor)

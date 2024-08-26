@@ -1,7 +1,6 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Components/SphereComponent.h"
 #include "GameFramework/Actor.h"
 #include "Projectile.generated.h"
 
@@ -31,7 +30,7 @@ protected:
 		const FHitResult& SweepResult);
 
 	UPROPERTY()
-	USphereComponent* SphereComponent;
+	UStaticMeshComponent* MeshComponent;
 	void HandleEnemyCollision(const AActor* OtherActor);
 
 	void HandleGeneralCollision(const AActor* OtherActor);
