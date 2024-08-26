@@ -29,7 +29,10 @@ void AProjectile::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* Ot
 	if (OtherActor && OtherActor->ActorHasTag("Enemy"))
 	{
 		HandleEnemyCollision(OtherActor);
+		return;
 	}
+
+	HandleGeneralCollision(OtherActor);
 }
 
 void AProjectile::HandleEnemyCollision(const AActor* OtherActor)
@@ -40,6 +43,11 @@ void AProjectile::HandleEnemyCollision(const AActor* OtherActor)
 		EnemyHealth->TakeDamage(Damage);
 		Destroy();
 	}
+}
+
+void AProjectile::HandleGeneralCollision(const AActor* OtherActor)
+{
+	Destroy();
 }
 
 void AProjectile::Tick(float DeltaTime)

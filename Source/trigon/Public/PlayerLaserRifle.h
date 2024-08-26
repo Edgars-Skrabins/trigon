@@ -32,9 +32,9 @@ protected:
 	bool CanShoot;
 	UPROPERTY(EditAnywhere)
 	float FireRate;
-	UPROPERTY()
+	UPROPERTY(EditDefaultsOnly)
 	FTimerHandle FireRateTimer;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<AProjectile> Projectile;
 
 public:

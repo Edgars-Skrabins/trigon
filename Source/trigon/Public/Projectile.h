@@ -34,6 +34,8 @@ protected:
 	USphereComponent* SphereComponent;
 	void HandleEnemyCollision(const AActor* OtherActor);
 
+	void HandleGeneralCollision(const AActor* OtherActor);
+
 public:
 	virtual void Tick(float DeltaTime) override;
 };

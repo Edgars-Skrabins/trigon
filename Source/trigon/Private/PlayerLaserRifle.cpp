@@ -22,6 +22,11 @@ void UPlayerLaserRifle::TickComponent(float DeltaTime, ELevelTick TickType, FAct
 
 void UPlayerLaserRifle::UpdateClosestEnemy()
 {
+	UWorld* world = GetWorld();
+
+	AActor* Actor = world->SpawnActor<AActor>();
+	Actor = nullptr;
+
 	const TArray<AActor*> SurroundingEnemyActors = GetAllSurroundingEnemyActors();
 	if (SurroundingEnemyActors.Num() <= 0)
 	{
@@ -70,7 +75,7 @@ void UPlayerLaserRifle::Shoot()
 	const FVector SpawnLocation = GetComponentLocation();
 	const FRotator SpawnRotation = GetComponentRotation();
 
-	AProjectile* SpawnedProjectile = World->SpawnActor<AProjectile>(Projectile, SpawnLocation, SpawnRotation, SpawnParams);
+	World->SpawnActor<AProjectile>(Projectile, SpawnLocation, SpawnRotation, SpawnParams);
 }
 
 void UPlayerLaserRifle::ResetFireTimer()
