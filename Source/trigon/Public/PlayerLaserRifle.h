@@ -1,17 +1,20 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "MySceneComponent.h"
 #include "Projectile.h"
 #include "Components/SceneComponent.h"
 #include "PlayerLaserRifle.generated.h"
 
 UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent))
-class TRIGON_API UPlayerLaserRifle : public USceneComponent
+class TRIGON_API UPlayerLaserRifle : public UMySceneComponent
 {
 	GENERATED_BODY()
 
 public:
 	UPlayerLaserRifle();
+	UFUNCTION(BlueprintCallable)
+	void SetComponentDefaults(int fireRate);
 
 protected:
 	virtual void BeginPlay() override;
@@ -30,7 +33,7 @@ protected:
 	int EnemyCheckRadius;
 	UPROPERTY()
 	bool CanShoot;
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(BlueprintReadWrite)
 	float FireRate;
 	UPROPERTY(EditDefaultsOnly)
 	FTimerHandle FireRateTimer;

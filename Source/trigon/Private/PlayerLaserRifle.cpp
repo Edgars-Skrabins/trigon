@@ -7,6 +7,11 @@ UPlayerLaserRifle::UPlayerLaserRifle(): CanShoot(true)
 	EnemyCheckRadius = 1000.0f;
 }
 
+void UPlayerLaserRifle::SetComponentDefaults(int fireRate)
+{
+	FireRate = fireRate;
+}
+
 void UPlayerLaserRifle::BeginPlay()
 {
 	Super::BeginPlay();
@@ -23,9 +28,6 @@ void UPlayerLaserRifle::TickComponent(float DeltaTime, ELevelTick TickType, FAct
 void UPlayerLaserRifle::UpdateClosestEnemy()
 {
 	UWorld* world = GetWorld();
-
-	AActor* Actor = world->SpawnActor<AActor>();
-	Actor = nullptr;
 
 	const TArray<AActor*> SurroundingEnemyActors = GetAllSurroundingEnemyActors();
 	if (SurroundingEnemyActors.Num() <= 0)
