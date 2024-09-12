@@ -7,9 +7,10 @@ UPlayerLaserRifle::UPlayerLaserRifle(): CanShoot(true)
 	EnemyCheckRadius = 1000.0f;
 }
 
-void UPlayerLaserRifle::SetComponentDefaults(int fireRate)
+void UPlayerLaserRifle::SetComponentDefaults(int fireRate, TSubclassOf<AProjectile> bullet)
 {
 	FireRate = fireRate;
+	Projectile = bullet;
 }
 
 void UPlayerLaserRifle::BeginPlay()
@@ -56,7 +57,7 @@ void UPlayerLaserRifle::RotateTowardsClosestEnemy()
 
 void UPlayerLaserRifle::HandleShoot()
 {
-	if (CanShoot)
+	if (CanShoot && ClosestEnemy)
 	{
 		CanShoot = false;
 		Shoot();

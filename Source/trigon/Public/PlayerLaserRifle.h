@@ -3,7 +3,6 @@
 #include "CoreMinimal.h"
 #include "MySceneComponent.h"
 #include "Projectile.h"
-#include "Components/SceneComponent.h"
 #include "PlayerLaserRifle.generated.h"
 
 UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent))
@@ -14,7 +13,7 @@ class TRIGON_API UPlayerLaserRifle : public UMySceneComponent
 public:
 	UPlayerLaserRifle();
 	UFUNCTION(BlueprintCallable)
-	void SetComponentDefaults(int fireRate);
+	void SetComponentDefaults(int fireRate, TSubclassOf<AProjectile> bullet);
 
 protected:
 	virtual void BeginPlay() override;
@@ -33,11 +32,11 @@ protected:
 	int EnemyCheckRadius;
 	UPROPERTY()
 	bool CanShoot;
-	UPROPERTY(BlueprintReadWrite)
+	UPROPERTY()
 	float FireRate;
-	UPROPERTY(EditDefaultsOnly)
+	UPROPERTY()
 	FTimerHandle FireRateTimer;
-	UPROPERTY(EditDefaultsOnly)
+	UPROPERTY()
 	TSubclassOf<AProjectile> Projectile;
 
 public:
