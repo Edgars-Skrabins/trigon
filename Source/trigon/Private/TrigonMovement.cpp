@@ -28,6 +28,7 @@ void UTrigonMovement::UpdatePlayerPosition()
 	const ACharacter* PlayerCharacter = UGameplayStatics::GetPlayerCharacter(GetWorld(), 0);
 	if (!PlayerCharacter)
 	{
+		UE_LOG(LogTemp, Warning, TEXT("Havent found player"));
 		return;
 	}
 
@@ -39,6 +40,7 @@ void UTrigonMovement::MoveTowardsPlayer() const
 	const APawn* Owner = Cast<APawn>(GetOwner());
 	if (!Owner)
 	{
+		UE_LOG(LogTemp, Warning, TEXT("Havent found owner"));
 		return;
 	}
 
@@ -46,12 +48,14 @@ void UTrigonMovement::MoveTowardsPlayer() const
 	AAIController* AIController = Cast<AAIController>(Owner->GetController());
 	if (!AIController)
 	{
+		UE_LOG(LogTemp, Warning, TEXT("No AI controller"));
 		return;
 	}
 
 	const UNavigationSystemV1* NavSystem = UNavigationSystemV1::GetCurrent(GetWorld());
 	if (!NavSystem)
 	{
+		UE_LOG(LogTemp, Warning, TEXT("No Navmesh"));
 		return;
 	}
 
