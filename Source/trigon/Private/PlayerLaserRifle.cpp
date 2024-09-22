@@ -16,6 +16,7 @@ void UPlayerLaserRifle::SetComponentDefaults(int fireRate, TSubclassOf<AProjecti
 void UPlayerLaserRifle::BeginPlay()
 {
 	Super::BeginPlay();
+	OwnerActor = GetOwner();
 }
 
 void UPlayerLaserRifle::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
@@ -77,7 +78,8 @@ void UPlayerLaserRifle::Shoot()
 	const FVector SpawnLocation = GetComponentLocation();
 	const FRotator SpawnRotation = GetComponentRotation();
 
-	World->SpawnActor<AProjectile>(Projectile, SpawnLocation, SpawnRotation, SpawnParams);
+	AProjectile* SpawnedProjectile = World->SpawnActor<AProjectile>(Projectile, SpawnLocation, SpawnRotation, SpawnParams);
+	// SpawnedProjectile->SetInstigator(OwnerActor);
 }
 
 bool UPlayerLaserRifle::CanSeeEnemy(AActor* Enemy)

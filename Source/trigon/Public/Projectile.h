@@ -18,6 +18,9 @@ protected:
 	virtual void InitializeComponent();
 
 	UPROPERTY()
+	AActor* BulletInstigator;
+
+	UPROPERTY()
 	int Damage;
 
 	UFUNCTION()
@@ -36,5 +39,5 @@ protected:
 	void HandleGeneralCollision(const AActor* OtherActor);
 
 public:
-	virtual void Tick(float DeltaTime) override;
+	void SetInstigator(AActor* InstigatorActor);
 };

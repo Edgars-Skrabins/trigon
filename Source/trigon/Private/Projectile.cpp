@@ -4,7 +4,6 @@
 
 AProjectile::AProjectile()
 {
-	PrimaryActorTick.bCanEverTick = true;
 	Damage = 100;
 }
 
@@ -56,7 +55,7 @@ void AProjectile::HandleGeneralCollision(const AActor* OtherActor)
 	Destroy();
 }
 
-void AProjectile::Tick(float DeltaTime)
+void AProjectile::SetInstigator(AActor* InstigatorActor)
 {
-	Super::Tick(DeltaTime);
+	BulletInstigator = InstigatorActor;
 }

@@ -22,6 +22,8 @@ protected:
 	void HandleShoot();
 	void Shoot();
 	bool CanSeeEnemy(AActor* Enemy);
+	UPROPERTY()
+	AActor* OwnerActor;
 	AActor* GetClosestActor(TArray<AActor*> Actors);
 	TArray<AActor*> GetAllSurroundingEnemyActors();
 	TArray<AActor*> GetAllSurroundingActors();
