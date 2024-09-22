@@ -13,7 +13,7 @@ class TRIGON_API UPlayerLaserRifle : public UMySceneComponent
 public:
 	UPlayerLaserRifle();
 	UFUNCTION(BlueprintCallable)
-	void SetComponentDefaults(int fireRate, TSubclassOf<AProjectile> bullet);
+	void SetComponentDefaults(float fireRate, TSubclassOf<AProjectile> bullet);
 
 protected:
 	virtual void BeginPlay() override;

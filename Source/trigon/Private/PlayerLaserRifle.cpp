@@ -7,7 +7,7 @@ UPlayerLaserRifle::UPlayerLaserRifle(): CanShoot(true)
 	EnemyCheckRadius = 1000.0f;
 }
 
-void UPlayerLaserRifle::SetComponentDefaults(int fireRate, TSubclassOf<AProjectile> bullet)
+void UPlayerLaserRifle::SetComponentDefaults(float fireRate, TSubclassOf<AProjectile> bullet)
 {
 	FireRate = fireRate;
 	Projectile = bullet;
