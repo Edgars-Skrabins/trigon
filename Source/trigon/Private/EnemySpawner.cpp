@@ -25,7 +25,9 @@ void AEnemySpawner::SpawnEnemy()
 {
 	FVector SpawnLocation = GetActorLocation();
 	FRotator SpawnRotation = GetActorRotation();
-	GetWorld()->SpawnActor<AActor>(Enemy, SpawnLocation, SpawnRotation);
+	FActorSpawnParameters SpawnParams;
+	SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn;
+	GetWorld()->SpawnActor<AActor>(Enemy, SpawnLocation, SpawnRotation, SpawnParams);
 }
 
 void AEnemySpawner::ResetSpawnRateTimer()
