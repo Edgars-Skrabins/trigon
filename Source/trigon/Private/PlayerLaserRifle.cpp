@@ -28,8 +28,6 @@ void UPlayerLaserRifle::TickComponent(float DeltaTime, ELevelTick TickType, FAct
 
 void UPlayerLaserRifle::UpdateClosestEnemy()
 {
-	UWorld* world = GetWorld();
-
 	const TArray<AActor*> SurroundingEnemyActors = GetAllSurroundingEnemyActors();
 	if (SurroundingEnemyActors.Num() <= 0)
 	{
@@ -41,7 +39,7 @@ void UPlayerLaserRifle::UpdateClosestEnemy()
 
 void UPlayerLaserRifle::RotateTowardsClosestEnemy()
 {
-	if (!ClosestEnemy)
+	if (!ClosestEnemy || !CanSeeEnemy(ClosestEnemy))
 	{
 		return;
 	}
@@ -57,7 +55,7 @@ void UPlayerLaserRifle::RotateTowardsClosestEnemy()
 
 void UPlayerLaserRifle::HandleShoot()
 {
-	if (CanShoot && ClosestEnemy)
+	if (CanShoot && ClosestEnemy && CanSeeEnemy(ClosestEnemy))
 	{
 		CanShoot = false;
 		Shoot();
@@ -80,6 +78,11 @@ void UPlayerLaserRifle::Shoot()
 	const FRotator SpawnRotation = GetComponentRotation();
 
 	World->SpawnActor<AProjectile>(Projectile, SpawnLocation, SpawnRotation, SpawnParams);
+}
+
+bool UPlayerLaserRifle::CanSeeEnemy(AActor* Enemy)
+{
+	return true;
 }
 
 void UPlayerLaserRifle::ResetFireTimer()
