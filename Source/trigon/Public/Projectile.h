@@ -20,7 +20,7 @@ protected:
 	UPROPERTY()
 	AActor* BulletInstigator;
 
-	UPROPERTY()
+	UPROPERTY(Blueprireadwrite, EditAnywhere)
 	int Damage;
 
 	UFUNCTION()
