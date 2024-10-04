@@ -20,14 +20,14 @@ protected:
 	void UpdateClosestEnemy();
 	void RotateTowardsClosestEnemy();
 	void HandleShoot();
-	void Shoot();
-	bool CanSeeEnemy(AActor* Enemy);
+	void Shoot() const;
+	bool IsSightToActorObstructed(const AActor* Enemy) const;
 	UPROPERTY()
 	AActor* OwnerActor;
-	AActor* GetClosestActor(TArray<AActor*> Actors);
-	TArray<AActor*> GetAllSurroundingEnemyActors();
-	TArray<AActor*> GetAllSurroundingActors();
-	float GetDistanceToActor(AActor* Actor);
+	AActor* GetClosestActor(TArray<AActor*> Actors) const;
+	TArray<AActor*> GetAllSurroundingEnemyActors() const;
+	TArray<AActor*> GetAllSurroundingActors() const;
+	float GetDistanceToActor(const AActor* Actor) const;
 	void ResetFireTimer();
 	UPROPERTY()
 	AActor* ClosestEnemy;
@@ -43,5 +43,6 @@ protected:
 	TSubclassOf<AProjectile> Projectile;
 
 public:
-	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
+	virtual void TickComponent(float DeltaTime, ELevelTick TickType,
+	                           FActorComponentTickFunction* ThisTickFunction) override;
 };

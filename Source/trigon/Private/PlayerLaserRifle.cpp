@@ -7,7 +7,7 @@ UPlayerLaserRifle::UPlayerLaserRifle(): CanShoot(true)
 	EnemyCheckRadius = 1000.0f;
 }
 
-void UPlayerLaserRifle::SetComponentDefaults(float fireRate, TSubclassOf<AProjectile> bullet)
+void UPlayerLaserRifle::SetComponentDefaults(const float fireRate, const TSubclassOf<AProjectile> bullet)
 {
 	FireRate = fireRate;
 	Projectile = bullet;
@@ -19,7 +19,8 @@ void UPlayerLaserRifle::BeginPlay()
 	OwnerActor = GetOwner();
 }
 
-void UPlayerLaserRifle::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
+void UPlayerLaserRifle::TickComponent(const float DeltaTime, const ELevelTick TickType,
+                                      FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 	UpdateClosestEnemy();
@@ -40,7 +41,7 @@ void UPlayerLaserRifle::UpdateClosestEnemy()
 
 void UPlayerLaserRifle::RotateTowardsClosestEnemy()
 {
-	if (!ClosestEnemy || !CanSeeEnemy(ClosestEnemy))
+	if (!ClosestEnemy || IsSightToActorObstructed(ClosestEnemy))
 	{
 		return;
 	}
@@ -56,15 +57,21 @@ void UPlayerLaserRifle::RotateTowardsClosestEnemy()
 
 void UPlayerLaserRifle::HandleShoot()
 {
-	if (CanShoot && ClosestEnemy && CanSeeEnemy(ClosestEnemy))
+	if (CanShoot && ClosestEnemy)
 	{
+		if (IsSightToActorObstructed(ClosestEnemy))
+		{
+			return;
+		}
+
 		CanShoot = false;
 		Shoot();
-		GetWorld()->GetTimerManager().SetTimer(FireRateTimer, this, &UPlayerLaserRifle::ResetFireTimer, FireRate, false);
+		GetWorld()->GetTimerManager().SetTimer(FireRateTimer, this, &UPlayerLaserRifle::ResetFireTimer, FireRate,
+		                                       false);
 	}
 }
 
-void UPlayerLaserRifle::Shoot()
+void UPlayerLaserRifle::Shoot() const
 {
 	UWorld* World = GetWorld();
 	if (!Projectile || !World)
@@ -78,13 +85,33 @@ void UPlayerLaserRifle::Shoot()
 	const FVector SpawnLocation = GetComponentLocation();
 	const FRotator SpawnRotation = GetComponentRotation();
 
-	AProjectile* SpawnedProjectile = World->SpawnActor<AProjectile>(Projectile, SpawnLocation, SpawnRotation, SpawnParams);
+	AProjectile* SpawnedProjectile = World->SpawnActor<AProjectile>(Projectile, SpawnLocation, SpawnRotation,
+	                                                                SpawnParams);
 	// SpawnedProjectile->SetInstigator(OwnerActor);
 }
 
-bool UPlayerLaserRifle::CanSeeEnemy(AActor* Enemy)
+bool UPlayerLaserRifle::IsSightToActorObstructed(const AActor* actor) const
 {
-	return true;
+	FHitResult OutHit;
+	const bool isSightObstructed = UKismetSystemLibrary::LineTraceSingle(
+		GetWorld(),
+		GetComponentLocation(),
+		actor->GetActorLocation(),
+		TraceTypeQuery1,
+		false,
+		{},
+		EDrawDebugTrace::None,
+		OutHit,
+		true
+	);
+
+	if (OutHit.GetActor() == actor)
+	{
+		return false;
+	}
+
+
+	return isSightObstructed;
 }
 
 void UPlayerLaserRifle::ResetFireTimer()
@@ -92,7 +119,7 @@ void UPlayerLaserRifle::ResetFireTimer()
 	CanShoot = true;
 }
 
-AActor* UPlayerLaserRifle::GetClosestActor(TArray<AActor*> Actors)
+AActor* UPlayerLaserRifle::GetClosestActor(TArray<AActor*> Actors) const
 {
 	AActor* ClosestActor = Actors[0];
 	float CurrentClosestActorDistance = GetDistanceToActor(ClosestActor);
@@ -109,7 +136,7 @@ AActor* UPlayerLaserRifle::GetClosestActor(TArray<AActor*> Actors)
 	return ClosestActor;
 }
 
-TArray<AActor*> UPlayerLaserRifle::GetAllSurroundingEnemyActors()
+TArray<AActor*> UPlayerLaserRifle::GetAllSurroundingEnemyActors() const
 {
 	TArray<AActor*> EnemyArray;
 	TArray<AActor*> Actors = GetAllSurroundingActors();
@@ -125,7 +152,7 @@ TArray<AActor*> UPlayerLaserRifle::GetAllSurroundingEnemyActors()
 	return EnemyArray;
 }
 
-TArray<AActor*> UPlayerLaserRifle::GetAllSurroundingActors()
+TArray<AActor*> UPlayerLaserRifle::GetAllSurroundingActors() const
 {
 	const FVector CheckCenterLocation = GetComponentLocation();
 	TArray<AActor*> Actors;
@@ -143,7 +170,7 @@ TArray<AActor*> UPlayerLaserRifle::GetAllSurroundingActors()
 	return Actors;
 }
 
-float UPlayerLaserRifle::GetDistanceToActor(AActor* Actor)
+float UPlayerLaserRifle::GetDistanceToActor(const AActor* Actor) const
 {
 	const FVector ActorLocation = Actor->GetActorLocation();
 	const float DistanceToActor = (ActorLocation - GetComponentLocation()).Size();
