@@ -1,16 +1,22 @@
 {
-  "FileVersion": 3,
-  "EngineAssociation": "4.27",
-  "Category": "",
-  "Description": "",
-  "Modules": [
-    {
-      "Name": "trigon",
-      "Type": "Runtime",
-      "LoadingPhase": "Default",
-      "AdditionalDependencies": [
-        "Engine"
-      ]
-    }
-  ]
+	"FileVersion": 3,
+	"EngineAssociation": "4.27",
+	"Category": "",
+	"Description": "",
+	"Modules": [
+		{
+			"Name": "trigon",
+			"Type": "Runtime",
+			"LoadingPhase": "Default",
+			"AdditionalDependencies": [
+				"Engine"
+			]
+		}
+	],
+	"TargetPlatforms": [
+		"AllDesktop",
+		"MacNoEditor",
+		"WindowsNoEditor",
+		"LinuxNoEditor"
+	]
 }
